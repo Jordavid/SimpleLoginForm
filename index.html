@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Practical Bootstrap and VueJs</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    
+    <div class="container">
+        <div id="app">
+            <div class="row">
+                <div class="col-xs-6 col-xs-offset-3">
+                    <h2>Login Form</h2>
+                    <p>Fill the below inputs to log in.</p>
+                    <form action="#">
+                        <div class="form-group">
+                            <label for="uname">Username</label>
+                            <input type="text" name="uname" id="uname" class="form-control" v-model="username" placeholder="Username">
+
+                            <label for="password">Password</label>
+                            <input :type="attr" id="password" class="form-control" v-model="password" placeholder="Password" v-on:keyUp=showBtn>
+                            <div class="btn btn-info" v-if=phide @click=ShowPass>Show/Hide password</div> <br>
+                            <div class="btn btn-default" @click=showInfo>Review</div> <span v-if=errorHidden class="label label-danger">{{err}}</span>
+                            <hr class="dl-horizontal">
+                            <div class="alert alert-info" v-if=hidden>
+                                <p>
+                                    Username: {{username}} <br>
+                                    Password: {{password}}
+                                </p>
+                                <p><b>If all info are correct, proceed with Login. Else check your input.</b></p> <br>
+                                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data:{
+                username: "",
+                password: "",
+                hidden: false,
+                phide: false,
+                attr: "password",
+                err: "Oups, some info missing. Please verify all your inputs.",
+                errorHidden: false
+            },
+            methods:{
+                showInfo: function () {
+                    if(this.username != "" && this.password != ""){
+                        this.errorHidden = false;
+                        this.hidden = true;
+                    } else {
+                        this.errorHidden = true;
+                    }
+                    
+                },
+                
+                showBtn: function (){
+                    if(this.password === ""){
+                        this.phide = false;
+                    } else {
+                        this.phide = true;
+                    }
+                },
+
+                ShowPass: function () {
+                    this.attr = this.attr === 'password' ? 'text' : 'password';
+                }
+            }
+        });
+    </script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
